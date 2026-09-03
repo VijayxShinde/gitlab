@@ -1,0 +1,26 @@
+name: Auto Commit
+
+on:
+  schedule:
+    # Runs at 12:00 PM UTC every day
+    - cron: '0 12 * * *'
+  workflow_dispatch: # Allows you to trigger it manually to test
+
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Update the log file
+        run: |
+          echo "Automated commit on $(date)" >> commit_log.txt
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "vijayxshinde@gmail.com"
+          git config --local user.name "VijayxShinde"
+          git add commit_log.txt
+          git commit -m "Auto-update commit graph"
+          git push
